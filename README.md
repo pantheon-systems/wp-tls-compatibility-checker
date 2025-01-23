@@ -25,3 +25,4 @@ wp tls-checker run --directory=/path/to/my/directory
 - [ ] Add an admin page in Tools explaining the scanner
 - [ ] Output the data to json (or the database) for both passed and failed urls
 - [ ] Add a Site Health component to show an alert if there are any failing outbound requests
+- [ ] Add tests, linting, etc.
