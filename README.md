@@ -21,6 +21,8 @@ The scanner will automatically scan the `/mu-plugins`, `/themes` and `/plugins` 
 wp tls-checker run --directory=/path/to/my/directory
 ```
 
+The scanner will only check PHP files.
+
 ## How do I know it worked?
 If the scan doesn't find anything bad, you should be good to go. If it does, it will list the URLs that it found that weren't compatible. However, if you want to validate that it's working, you can create a new plugin with the following code:
 
