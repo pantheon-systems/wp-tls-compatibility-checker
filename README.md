@@ -87,6 +87,6 @@ When you run the command, the URL above should be returned as a host that does N
 ## TODO
 - [ ] Add an admin page in Tools explaining the scanner
 - [ ] Allow the scan to be run in the admin via admin-ajax
-- [ ] Output the data to json (or the database) for both passed and failed urls
+- [x] Output the data to json (or the database) for both passed and failed urls
 - [ ] Add a Site Health component to show an alert if there are any failing outbound requests
 - [ ] Add tests, linting, etc.
