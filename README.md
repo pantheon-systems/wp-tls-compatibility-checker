@@ -1,27 +1,70 @@
 # WP TLS Compatibility Checker
-A scanner for outgoing HTTP requests in WordPress code to check TLS 1.2/1.3 compatibility.
+A scanner for outgoing HTTP requests in WordPress code to check TLS 1.2/1.3 compatibility. The scanner stores results in the database so they can be fetched via CLI or other commands.
 
-## Usage
+## WP-CLI Commands
 
-From a command line, use WP-CLI to run the scanner.
+The TLS Checker can be run from the command line with WP-CLI.
 
-```bash
-wp tls-checker run
-```
+### `run`
 
-Or, in a Pantheon environment using Terminus:
-
-```bash
-terminus wp -- <site>.<env> tls-checker run
-```
-
-The scanner will automatically scan the `/mu-plugins`, `/themes` and `/plugins` directories for any outbound HTTP requests. You can specify a directory by passing a `--directory` flag, e.g.:
+Runs the TLS checker scan across all PHP files in the given directories (defaults to `/mu-plugins`, `/themes` and `/plugins`). You can specify a directory by passing a `--directory` flag, e.g.:
 
 ```bash
 wp tls-checker run --directory=/path/to/my/directory
 ```
 
-The scanner will only check PHP files.
+#### Examples
+
+```bash
+wp tls-checker scan
+```
+
+```bash
+wp tls-checker scan --directory=/private/scripts/quicksilver
+```
+
+Or, in a Pantheon environment using Terminus:
+
+```bash
+terminus wp -- <site>.<env> tls-checker scan
+```
+
+### `report`
+
+Returns a full report of checked URLs and whether they passed or failed the TLS check. Supports multiple formats (table, JSON, CSV, YAML).
+
+#### Examples
+
+```bash
+wp tls-checker report
+```
+
+```bash
+wp tls-checker report --format=json | jq
+```
+
+```bash
+wp tls-checker report --format=csv
+```
+
+Or, in a Pantheon environment using Terminus:
+
+```bash
+terminus wp -- <site>.<env> tls-checker report
+```
+
+### `reset`
+
+Resets the stored passing and failing URLs so the next scan will re-check all discovered URLs.
+
+#### Examples
+```bash
+wp tls-checker reset
+```
+
+```bash
+terminus wp -- <site>.<env> tls-checker reset
+```
 
 ## How do I know it worked?
 If the scan doesn't find anything bad, you should be good to go. If it does, it will list the URLs that it found that weren't compatible. However, if you want to validate that it's working, you can create a new plugin with the following code:
