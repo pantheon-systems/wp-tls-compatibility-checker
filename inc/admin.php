@@ -11,7 +11,7 @@ function add_menu_page() {
 	add_submenu_page(
 		'tools.php',
 		__( 'TLS Compatibility Checker', 'pantheon-tls-compatibility-checker' ),
-		__( 'TLS Checker', 'pantheon-tls-compatibility-checker' ),
+		__( 'TLS Compatibility', 'pantheon-tls-compatibility-checker' ),
 		'manage_options',
 		'tls-compatibility-checker',
 		__NAMESPACE__ . '\\render_page'
