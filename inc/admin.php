@@ -7,10 +7,6 @@
 
 namespace Pantheon\TLSChecker\Admin;
 
-function bootstrap() {
-	add_action( 'admin_menu', __NAMESPACE__ . '\\add_menu_page' );
-}
-
 function add_menu_page() {
 	add_submenu_page(
 		'tools.php',
@@ -41,4 +37,4 @@ function render_page() {
 	<?php
 }
 
-add_action( 'plugins_loaded', __NAMESPACE__ . '\\bootstrap' );
+add_action( 'admin_menu', __NAMESPACE__ . '\\add_menu_page' );
