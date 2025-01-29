@@ -33,17 +33,50 @@ function render_page() {
 		pantheon_tls_checker_reset_urls();
 		add_action( 'admin_notices', __NAMESPACE__ . '\\reset_successful_notice' );
 	}
+
+	$failing_urls = pantheon_tls_checker_get_failing_urls();
 	?>
 	<div class="wrap">
 		<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-		<form method="post">
-			<?php wp_nonce_field( 'pantheon_tls_checker_reset_action' ); ?>
-			<button type="submit" name="pantheon_tls_checker_reset" class="button button-secondary">
-				<?php esc_html_e( 'Reset TLS Checker Data', 'pantheon-tls-compatibility-checker' ); ?>
-			</button>
-		</form>
+		<p><?php esc_html_e( 'Check your codebase for outgoing connections to servers that support TLS 1.2/1.3', 'pantheon-tls-compatibility-checker' ); ?></p>
+		<div class="failing-urls">
+			<p>
+				<?php echo wp_kses_post( 'The following URLs were found in your codebase that do <em>not</em> support TLS connections of 1.2 or higher.', 'pantheon-tls-compatibility-checker' ); ?>
+			</p>
+<pre><?php foreach ( $failing_urls as $url ) : echo esc_url( $url ) . "\n"; endforeach; ?></pre>
+			<p class="description">
+				<?php esc_html_e( 'Use the "Reset TLS Compatibility Data" button below to remove stored data from previous scans. This is not required and should only be done if you wish to re-run a scan from scratch. Subsequent scans will automatically skip checking any URLs that have already been tested and passed.', 'pantheon-tls-compatibility-checker' ); ?>
+			</p>
+		</div>
+		<div class="tls-scan">
+			<h2><?php esc_html_e( 'Scan your site for outgoing TLS connections', 'pantheon-tls-compatibility-checker' ); ?></h2>
+
+			<p>
+				<?php esc_html_e( 'You can check your site for HTTP/HTTPS connections by using WP-CLI (see details below) or in the dashboard with the "Scan site for TLS 1.2/1.3 compatibility" button.', 'pantheon-tls-compatibility-checker' ); ?>
+				<br />
+				<?php echo wp_kses_post( sprintf( 
+					'<a href="%1$s">%2$s</a>',
+					'https://www.cloudflare.com/learning/ssl/transport-layer-security-tls/',
+					__( 'Learn more about TLS.', 'pantheon-tls-compatibility-checker' ) 
+				) ); ?>
+			</p>
+			<div class="tls-compatibility-actions">
+				<form method="post">
+					<?php wp_nonce_field( 'pantheon_tls_checker_reset_action' ); ?>
+					<button type="submit" name="pantheon_tls_checker_reset" class="button button-secondary">
+						<?php esc_html_e( 'Reset TLS Compatibility Data', 'pantheon-tls-compatibility-checker' ); ?>
+					</button>
+				</form>
+				<form method="post">
+					<?php wp_nonce_field( 'pantheon_tls_checker_scan_action' ); ?>
+					<button type="submit" name="pantheon_tls_checker_scan" class="button button-primary">
+						<?php esc_html_e( 'Scan site for TLS 1.2/1.3 compatibility', 'pantheon-tls-compatibility-checker' ); ?>
+					</button>
+				</form>
+			</div>
+		</div>
 	</div>
 	<?php
 }
 
-add_action( 'admin_menu', __NAMESPACE__ . '\\add_menu_page' );
+bootstrap();
