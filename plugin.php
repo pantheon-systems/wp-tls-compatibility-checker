@@ -10,8 +10,8 @@ namespace Pantheon\TLSChecker;
 
 function bootstrap() {
 	define( 'TLS_CHECKER_INC', plugin_dir_path( __FILE__ ) . '/inc/' );
-	require_once TLS_CHECKER_INC . 'admin.php';
 	require_once TLS_CHECKER_INC . 'core.php';
+	require_once TLS_CHECKER_INC . 'admin.php';
 	require_once TLS_CHECKER_INC . 'site-health.php';
 
 	if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -33,4 +33,4 @@ function tls_checker_deactivate() {
 	pantheon_tls_checker_delete_options();
 }
 
-add_action( 'plugins_loaded', __NAMESPACE__ . '\\bootstrap' );
+bootstrap();
