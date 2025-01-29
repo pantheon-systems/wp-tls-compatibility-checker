@@ -1,3 +1,11 @@
+.failing-urls pre.card {
+    padding-bottom: 0.7em;
+}
+
+.failing-urls .description {
+    font-style: italic;
+}
+
 .tls-compatibility-actions {
     display: flex; /* Makes the forms align in a row */
     gap: 10px; /* Adds spacing between buttons */
