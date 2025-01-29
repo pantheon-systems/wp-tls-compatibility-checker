@@ -13,7 +13,12 @@ function bootstrap() {
 }
 
 function enqueue_css() {
-	wp_enqueue_style( 'tls-compatibility-admin', TLS_CHECKER_ASSETS . 'admin.css', [], TLS_CHECKER_VERSION, 'screen' );
+	$screen = get_current_screen();
+
+	// Only load the css on our admin page.
+	if ( $screen && $screen->base === 'tools_page_tls-compatibility-checker' ) {
+		wp_enqueue_style( 'tls-compatibility-admin', TLS_CHECKER_ASSETS . 'admin.css', [], TLS_CHECKER_VERSION, 'screen' );
+	}
 }
 
 function add_menu_page() {
@@ -43,7 +48,7 @@ function render_page() {
 			<p>
 				<?php echo wp_kses_post( 'The following URLs were found in your codebase that do <em>not</em> support TLS connections of 1.2 or higher.', 'pantheon-tls-compatibility-checker' ); ?>
 			</p>
-<pre><?php foreach ( $failing_urls as $url ) : echo esc_url( $url ) . "\n"; endforeach; ?></pre>
+<pre class="card"><?php foreach ( $failing_urls as $url ) : echo esc_url( $url ) . "\n"; endforeach; ?></pre>
 			<p class="description">
 				<?php esc_html_e( 'Use the "Reset TLS Compatibility Data" button below to remove stored data from previous scans. This is not required and should only be done if you wish to re-run a scan from scratch. Subsequent scans will automatically skip checking any URLs that have already been tested and passed.', 'pantheon-tls-compatibility-checker' ); ?>
 			</p>
