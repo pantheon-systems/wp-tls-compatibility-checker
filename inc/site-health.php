@@ -7,10 +7,6 @@
 
 namespace Pantheon\TLSChecker\SiteHealth;
 
-function bootstrap() {
-	add_filter( 'site_status_tests', __NAMESPACE__ . '\\site_health_check', 10 );
-}
-
 function site_health_check( $tests ) {
 	$tests['direct']['tls_check_failing_urls'] = [
 		'label' => __( 'TLS Failing URLs', 'pantheon-tls-compatibility-checker' ),
@@ -41,4 +37,4 @@ function site_health_test() {
 	];
 }
 
-add_action( 'plugins_loaded', __NAMESPACE__ . '\\bootstrap' );
+add_filter( 'site_status_tests', __NAMESPACE__ . '\\site_health_check', 10 );
