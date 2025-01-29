@@ -72,16 +72,17 @@ function pantheon_tls_checker_scan($urls) {
         'failing' => [],
     ];
 
+	$skip_urls = pantheon_tls_checker_get_skip_urls();
 	$passing_urls = pantheon_tls_checker_get_passing_urls();
 
 	if ( ! empty( $passing_urls ) ) {
-		// Merge array of passing URLs with passed URLs and filter for unique urls.
-		apply_filters( 'pantheon.tls_checker.skip_urls', $passing_urls );
+		// Merge array of passing URLs with passed URLs and urls to skip for unique urls.
+		$skip_urls = array_unique( array_merge( $skip_urls, $passing_urls ) );
 	}
 
     foreach ($urls as $url) {
         // Skip URLs that match the skip list
-        if (in_array($url, pantheon_tls_checker_get_skip_urls())) {
+        if (in_array($url, $skip_urls)) {
             continue;
         }
 
