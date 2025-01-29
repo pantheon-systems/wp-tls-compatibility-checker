@@ -7,6 +7,15 @@
 
 namespace Pantheon\TLSChecker\Admin;
 
+function bootstrap() {
+	add_action( 'admin_menu', __NAMESPACE__ . '\\add_menu_page' );
+	add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\enqueue_css' );
+}
+
+function enqueue_css() {
+	wp_enqueue_style( 'tls-compatibility-admin', TLS_CHECKER_ASSETS . 'admin.css', [], TLS_CHECKER_VERSION, 'screen' );
+}
+
 function add_menu_page() {
 	add_submenu_page(
 		'tools.php',

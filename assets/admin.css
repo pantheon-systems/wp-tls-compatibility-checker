@@ -1,0 +1,9 @@
+.tls-compatibility-actions {
+    display: flex; /* Makes the forms align in a row */
+    gap: 10px; /* Adds spacing between buttons */
+    align-items: center; /* Aligns buttons vertically */
+}
+
+.tls-compatibility-actions form {
+    margin: 0; /* Ensures no unexpected spacing */
+}
