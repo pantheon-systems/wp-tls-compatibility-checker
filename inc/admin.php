@@ -101,6 +101,7 @@ function render_page() {
 					</button>
 				</form>
 			</div>
+			<div id="pantheon-tls-scan-status"></div>
 		</div>
 	</div>
 	<?php
