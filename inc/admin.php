@@ -96,7 +96,7 @@ function render_page() {
 				</form>
 				<form method="post">
 					<?php wp_nonce_field( 'pantheon_tls_checker_scan_action' ); ?>
-					<button type="submit" name="pantheon_tls_checker_scan" class="button button-primary">
+					<button type="submit" name="pantheon_tls_checker_scan" id="pantheon-tls-scan" class="button button-primary">
 						<?php esc_html_e( 'Scan site for TLS 1.2/1.3 compatibility', 'pantheon-tls-compatibility-checker' ); ?>
 					</button>
 				</form>
