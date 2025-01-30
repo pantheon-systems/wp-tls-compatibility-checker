@@ -1,5 +1,6 @@
 .failing-urls pre.card {
     padding-bottom: 0.7em;
+    max-width: fit-content;
 }
 
 .failing-urls .description {
@@ -14,4 +15,32 @@
 
 .tls-compatibility-actions form {
     margin: 0; /* Ensures no unexpected spacing */
+}
+
+.tls-progress-bar {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.tls-progress {
+    height: 100%;
+    width: 0%;
+    background: #007cba; /* WP primary color */
+    transition: width 0.3s ease-in-out;
+}
+
+.tls-progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    font-weight: bold;
+    color: #333; /* Start with dark text */
+    transition: color 0.3s ease-in-out;
 }
