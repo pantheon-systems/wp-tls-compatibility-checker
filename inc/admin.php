@@ -9,15 +9,23 @@ namespace Pantheon\TLSChecker\Admin;
 
 function bootstrap() {
 	add_action( 'admin_menu', __NAMESPACE__ . '\\add_menu_page' );
-	add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\enqueue_css' );
+	add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\enqueue_scripts' );
+	add_action( 'wp_ajax_pantheon_tls_checker_scan', __NAMESPACE__ . '\\handle_ajax_scan' );
+	add_action( 'wp_ajax_nopriv_pantheon_tls_checker_scan', __NAMESPACE__ . '\\handle_ajax_scan' ); // Allow for non-logged in users if needed
+	
 }
 
-function enqueue_css() {
+function enqueue_scripts() {
 	$screen = get_current_screen();
 
 	// Only load the css on our admin page.
 	if ( $screen && $screen->base === 'tools_page_tls-compatibility-checker' ) {
 		wp_enqueue_style( 'tls-compatibility-admin', TLS_CHECKER_ASSETS . 'admin.css', [], TLS_CHECKER_VERSION, 'screen' );
+		wp_enqueue_script( 'tls-compatibility-scan', TLS_CHECKER_ASSETS . 'scan.js', [], TLS_CHECKER_VERSION );
+		wp_localize_script( 'tls-compatibility-scan', 'tlsCheckerAjax', [
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'nonce' => wp_create_nonce( 'pantheon_tls_checker_scan_action' ),
+		] );
 	}
 }
 
