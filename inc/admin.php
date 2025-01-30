@@ -107,4 +107,32 @@ function render_page() {
 	<?php
 }
 
+function handle_ajax_scan() {
+	check_ajax_referer( 'pantheon_tls_checker_scan_action', 'nonce' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( __( 'Unauthorized request', 'pantheon-tls-compatibility-checker' ) );
+	}
+
+	$batch_size = 10; // Process 10 URLs per batch.
+	$offset = isset( $_POST['offset'] ) ? intval( $_POST['offset'] ) : 0;
+	$urls = pantheon_tls_checker_extract_urls( WP_CONTENT_DIR );
+	$total_urls = count( $urls );
+	$remaining_urls = max( 0, $total_urls - $offset );
+
+	// Process only a batch.
+	$batch = array_slice( $urls, $offset, $batch_size );
+	$results = pantheon_tls_checker_scan( $batch );
+
+	wp_send_json_success( [
+		'progress' => $offset + count( $batch ),
+		'total' => $total_urls,
+		'remaining' => $remaining_urls,
+		'batch_size' => $batch_size,
+		'passing' => count( $results['passing'] ),
+		'failing' => count( $results['failing'] ),
+		'failing_urls' => $results['failing'],
+	] );
+}
+
 bootstrap();
