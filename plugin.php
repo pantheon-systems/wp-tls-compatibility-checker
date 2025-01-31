@@ -2,8 +2,12 @@
 /**
  * Plugin Name: TLS Compatibility Checker
  * Description: A scanner for outgoing HTTP requests in WordPress code to check TLS 1.2/1.3 compatibility.
- * Version: 1.3
- * Author: Chris Reynolds
+ * Version: 1.0.0
+ * Author: Pantheon Systems
+ * Author URI: https://pantheon.io
+ * License: MIT
+ * GitHub Plugin URI: jazzsequence/pantheon-tls-compatibility-checker
+ * Primary Branch: main
  */
 
 namespace Pantheon\TLSChecker;
@@ -14,7 +18,7 @@ namespace Pantheon\TLSChecker;
 function bootstrap() {
 	define( 'TLS_CHECKER_INC', plugin_dir_path( __FILE__ ) . '/inc/' );
 	define( 'TLS_CHECKER_ASSETS', plugin_dir_url( __FILE__ ) . '/assets/' );
-	define( 'TLS_CHECKER_VERSION', '1.3' );
+	define( 'TLS_CHECKER_VERSION', '1.0.0' );
 	require_once TLS_CHECKER_INC . 'core.php';
 	require_once TLS_CHECKER_INC . 'admin.php';
 	require_once TLS_CHECKER_INC . 'site-health.php';
