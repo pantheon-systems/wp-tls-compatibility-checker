@@ -1,4 +1,11 @@
 # WP TLS Compatibility Checker
+
+[![Unofficial Support](https://img.shields.io/badge/Pantheon-Unofficial_Support-yellow?logo=pantheon&color=FFDC28)](https://docs.pantheon.io/oss-support-levels#unofficial-support)
+[![Lint](https://github.com/jazzsequence/wp-tls-compatibility-checker/actions/workflows/lint.yml/badge.svg)](https://github.com/jazzsequence/wp-tls-compatibility-checker/actions/workflows/lint.yml)
+![GitHub Release](https://img.shields.io/github/v/release/jazzsequence/wp-tls-compatibility-checker)
+![GitHub License](https://img.shields.io/github/license/jazzsequence/wp-tls-compatibility-checker)
+
+
 A scanner for outgoing HTTP requests in WordPress code to check TLS 1.2/1.3 compatibility. The scanner stores results in the database so they can be fetched via CLI or other commands.
 
 ## WP-CLI Commands
@@ -85,8 +92,4 @@ add_action( 'admin_init', function() {
 When you run the command, the URL above should be returned as a host that does NOT support TLS 1.2 or higher.
 
 ## TODO
-- [ ] Add an admin page in Tools explaining the scanner
-- [ ] Allow the scan to be run in the admin via admin-ajax
-- [x] Output the data to json (or the database) for both passed and failed urls
-- [ ] Add a Site Health component to show an alert if there are any failing outbound requests
-- [ ] Add tests, linting, etc.
+- [ ] Add tests
