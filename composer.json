@@ -21,8 +21,8 @@
     "scripts": {
         "phpcs": [
             "find . -type f -name '*.php' -not -path './vendor/*' -not -path './tests/*' -exec php -l {} \\;",
-            "vendor/bin/phpcs -s ."
+            "vendor/bin/phpcs ."
         ],
-        "phpcbf": "vendor/bin/phpcbf -s .",
+        "phpcbf": "vendor/bin/phpcbf ."
     }
 }
