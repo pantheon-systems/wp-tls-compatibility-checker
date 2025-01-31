@@ -10,5 +10,19 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {}
+    "require": {
+        "pantheon-systems/pantheon-wp-coding-standards": "^2.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts": {
+        "phpcs": [
+            "find . -type f -name '*.php' -not -path './vendor/*' -not -path './tests/*' -exec php -l {} \\;",
+            "vendor/bin/phpcs -s ."
+        ],
+        "phpcbf": "vendor/bin/phpcbf -s .",
+    }
 }
