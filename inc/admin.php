@@ -85,9 +85,6 @@ function render_page() {
 	}
 	?>
 			</pre>
-			<p class="description">
-				<?php esc_html_e( 'Use the "Reset TLS Compatibility Data" button below to remove stored data from previous scans. This is not required and should only be done if you wish to re-run a scan from scratch. Subsequent scans will automatically skip checking any URLs that have already been tested and passed.', 'pantheon-tls-compatibility-checker' ); ?>
-			</p>
 		</div>
 		<div class="tls-scan">
 			<h2><?php esc_html_e( 'Scan your site for outgoing TLS connections', 'pantheon-tls-compatibility-checker' ); ?></h2>
@@ -118,6 +115,9 @@ function render_page() {
 				</form>
 			</div>
 			<div id="pantheon-tls-scan-status"></div>
+			<p class="description">
+				<?php esc_html_e( 'Use the "Reset TLS Compatibility Data" button below to remove stored data from previous scans. This is not required and should only be done if you wish to re-run a scan from scratch. Subsequent scans will automatically skip checking any URLs that have already been tested and passed.', 'pantheon-tls-compatibility-checker' ); ?>
+			</p>
 		</div>
 	</div>
 	<?php

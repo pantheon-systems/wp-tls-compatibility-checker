@@ -3,8 +3,9 @@
     max-width: fit-content;
 }
 
-.failing-urls .description {
+.tls-scan .description {
     font-style: italic;
+    margin-top: 0.7em;
 }
 
 .tls-compatibility-actions {
