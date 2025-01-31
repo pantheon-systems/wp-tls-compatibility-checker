@@ -8,9 +8,12 @@
 
 namespace Pantheon\TLSChecker;
 
+/**
+ * Bootstrap the plugin.
+ */
 function bootstrap() {
 	define( 'TLS_CHECKER_INC', plugin_dir_path( __FILE__ ) . '/inc/' );
-	define( 'TLS_CHECKER_ASSETS', plugin_dir_url( __FILE__ ). '/assets/' );
+	define( 'TLS_CHECKER_ASSETS', plugin_dir_url( __FILE__ ) . '/assets/' );
 	define( 'TLS_CHECKER_VERSION', '1.3' );
 	require_once TLS_CHECKER_INC . 'core.php';
 	require_once TLS_CHECKER_INC . 'admin.php';
@@ -24,6 +27,9 @@ function bootstrap() {
 	register_activation_hook( __FILE__, __NAMESPACE__ . '\\tls_checker_deactivate' );
 }
 
+/**
+ * Plugin activation hooks.
+ */
 function tls_checker_activate() {
 	// Initialize database.
 	if ( ! get_option( 'tls_checker_passing_urls' ) && ! get_option( 'tls_checker_failing_urls' ) ) {
@@ -31,8 +37,12 @@ function tls_checker_activate() {
 	}
 }
 
+/**
+ * Plugin deactivation hooks.
+ */
 function tls_checker_deactivate() {
 	pantheon_tls_checker_delete_options();
 }
 
+// Kick it off.
 bootstrap();

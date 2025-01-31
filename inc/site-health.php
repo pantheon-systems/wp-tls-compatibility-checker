@@ -7,6 +7,12 @@
 
 namespace Pantheon\TLSChecker\SiteHealth;
 
+/**
+ * Add a site health check for TLS compatibility.
+ *
+ * @param array $tests The existing site health tests.
+ * @return array The modified site health tests.
+ */
 function site_health_check( $tests ) {
 	$tests['direct']['pantheon_tls_check_failing_urls'] = [
 		'label' => __( 'TLS Failing URLs', 'pantheon-tls-compatibility-checker' ),
@@ -16,6 +22,11 @@ function site_health_check( $tests ) {
 	return $tests;
 }
 
+/**
+ * Test the site's TLS compatibility.
+ *
+ * @return array The test result.
+ */
 function site_health_test() {
 	$failing_urls = pantheon_tls_checker_get_failing_urls();
 	$result = [
@@ -34,8 +45,9 @@ function site_health_test() {
 		$result['label'] = __( 'TLS Failing URLs Detected', 'pantheon-tls-compatibility-checker' );
 		$result['badge']['color'] = 'red';
 		$result['description'] = sprintf(
-				__( 'The following URLs do not support TLS 1.2 or higher: %s', 'pantheon-tls-compatibility-checker' ),
-				'<ul><li>' . implode( '</li><li>', array_map( 'esc_html', $failing_urls ) ) . '</li></ul>'
+			// Translators: %s is a list of URLs.
+			__( 'The following URLs do not support TLS 1.2 or higher: %s', 'pantheon-tls-compatibility-checker' ),
+			'<ul><li>' . implode( '</li><li>', array_map( 'esc_html', $failing_urls ) ) . '</li></ul>'
 		);
 	}
 

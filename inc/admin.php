@@ -7,21 +7,25 @@
 
 namespace Pantheon\TLSChecker\Admin;
 
+/**
+ * Bootstrap the admin page.
+ */
 function bootstrap() {
 	add_action( 'admin_menu', __NAMESPACE__ . '\\add_menu_page' );
 	add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\enqueue_scripts' );
 	add_action( 'wp_ajax_pantheon_tls_checker_scan', __NAMESPACE__ . '\\handle_ajax_scan' );
-	add_action( 'wp_ajax_nopriv_pantheon_tls_checker_scan', __NAMESPACE__ . '\\handle_ajax_scan' ); // Allow for non-logged in users if needed
-	
 }
 
+/**
+ * Enqueue admin scripts and styles.
+ */
 function enqueue_scripts() {
 	$screen = get_current_screen();
 
 	// Only load the css on our admin page.
 	if ( $screen && $screen->base === 'tools_page_tls-compatibility-checker' ) {
 		wp_enqueue_style( 'tls-compatibility-admin', TLS_CHECKER_ASSETS . 'admin.css', [], TLS_CHECKER_VERSION, 'screen' );
-		wp_enqueue_script( 'tls-compatibility-scan', TLS_CHECKER_ASSETS . 'scan.js', [], TLS_CHECKER_VERSION );
+		wp_enqueue_script( 'tls-compatibility-scan', TLS_CHECKER_ASSETS . 'scan.js', [], TLS_CHECKER_VERSION, true );
 		wp_localize_script( 'tls-compatibility-scan', 'tlsCheckerAjax', [
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'nonce' => wp_create_nonce( 'pantheon_tls_checker_scan_action' ),
@@ -29,6 +33,9 @@ function enqueue_scripts() {
 	}
 }
 
+/**
+ * Add the admin menu page.
+ */
 function add_menu_page() {
 	add_submenu_page(
 		'tools.php',
@@ -40,6 +47,9 @@ function add_menu_page() {
 	);
 }
 
+/**
+ * Render the admin page.
+ */
 function render_page() {
 	if ( isset( $_POST['pantheon_tls_checker_reset'] ) ) {
 		check_admin_referer( 'pantheon_tls_checker_reset_action' );
@@ -47,6 +57,7 @@ function render_page() {
 		add_action( 'admin_notices', __NAMESPACE__ . '\\reset_successful_notice' );
 	}
 
+	// Get passing and failing URLs.
 	$failing_urls = pantheon_tls_checker_get_failing_urls();
 	$passing_urls = pantheon_tls_checker_get_passing_urls();
 	?>
@@ -59,17 +70,20 @@ function render_page() {
 				<?php echo wp_kses_post( 'The following URLs were found in your codebase that do <em>not</em> support TLS connections of 1.2 or higher.', 'pantheon-tls-compatibility-checker' ); ?>
 			</p>
 			<pre class="card">
-<?php 
-			if ( empty( $failing_urls ) && empty( $passing_urls ) ) {
-				esc_html_e( 'No URLs failing TLS 1.2/1.3 connections found. Try running a scan.', 'pantheon-tls-compatibility-checker' ); 
-			} elseif ( empty( $failing_urls ) && ! empty( $passing_urls ) ) {
-				esc_html_e( 'All outgoing HTTP/HTTPS connections found are compatible with TLS 1.2/1.3.', 'pantheon-tls-compatibility-checker' );
-			} else {
-				foreach ( $failing_urls as $url ) {
-					echo esc_url( $url ) . "\n";
-				} 
-			}
-?>
+<?php // phpcs:ignore Generic.WhiteSpace.ScopeIndent.Incorrect
+	if ( empty( $failing_urls ) && empty( $passing_urls ) ) {
+		// If both $failing_urls and $passing_urls are empty, we've probably never run the scan or we reset the data.
+		esc_html_e( 'No URLs failing TLS 1.2/1.3 connections found. Try running a scan.', 'pantheon-tls-compatibility-checker' ); 
+	} elseif ( empty( $failing_urls ) && ! empty( $passing_urls ) ) {
+		// If $failing_urls is empty but $passing_urls is not, all URLs have passed.
+		esc_html_e( 'All outgoing HTTP/HTTPS connections found are compatible with TLS 1.2/1.3.', 'pantheon-tls-compatibility-checker' );
+	} else {
+		// Loop through and display the failing URLs.
+		foreach ( $failing_urls as $url ) {
+			echo esc_url( $url ) . "\n";
+		} 
+	}
+	?>
 			</pre>
 			<p class="description">
 				<?php esc_html_e( 'Use the "Reset TLS Compatibility Data" button below to remove stored data from previous scans. This is not required and should only be done if you wish to re-run a scan from scratch. Subsequent scans will automatically skip checking any URLs that have already been tested and passed.', 'pantheon-tls-compatibility-checker' ); ?>
@@ -81,11 +95,13 @@ function render_page() {
 			<p>
 				<?php esc_html_e( 'You can check your site for HTTP/HTTPS connections by using WP-CLI (see details below) or in the dashboard with the "Scan site for TLS 1.2/1.3 compatibility" button.', 'pantheon-tls-compatibility-checker' ); ?>
 				<br />
-				<?php echo wp_kses_post( sprintf( 
+				<?php
+				echo wp_kses_post( sprintf( 
 					'<a href="%1$s">%2$s</a>',
 					'https://www.cloudflare.com/learning/ssl/transport-layer-security-tls/',
 					__( 'Learn more about TLS.', 'pantheon-tls-compatibility-checker' ) 
-				) ); ?>
+				) );
+				?>
 			</p>
 			<div class="tls-compatibility-actions">
 				<form method="post">
@@ -107,6 +123,9 @@ function render_page() {
 	<?php
 }
 
+/**
+ * Run an AJAX scan of the site for TLS compatibility.
+ */
 function handle_ajax_scan() {
 	check_ajax_referer( 'pantheon_tls_checker_scan_action', 'nonce' );
 
@@ -135,4 +154,5 @@ function handle_ajax_scan() {
 	] );
 }
 
+// Kick it off.
 bootstrap();
