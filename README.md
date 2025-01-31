@@ -8,6 +8,77 @@
 
 A scanner for outgoing HTTP requests in WordPress code to check TLS 1.2/1.3 compatibility. The scanner stores results in the database so they can be fetched via CLI or other commands.
 
+## Installation
+
+### Via Composer
+
+```bash
+composer require jazzsequence/wp-tls-compatibility-checker
+```
+
+### Via Git Updater
+
+WP TLS Compatibility Checker supports [Andy Fragen's Git Updater](https://git-updater.com) method of managing plugins. 
+
+1. Download and install [Git Updater](https://git-updater.com/git-updater/) on your WordPress site.
+1. From the Git Updater admin pages, navigate to **Install Plugin** and use the following values:
+
+**Plugin URI:** `jazzsequence/wp-tls-compatibility-checker`  
+**Repository Branch:** `main`  
+**Remote Repository Host:** `GitHub`  
+**GitHub Access Token:** (optional, leave blank)
+
+### Manually
+
+1. Download the [latest release on GitHub]([https://](https://github.com/jazzsequence/wp-tls-compatibility-checker/releases).
+1. Unzip the archive into your WordPress plugins directory (usually `/wp-content/plugins/`).
+1. Upload the plugin to your WordPress site.
+1. Activate the plugin.
+
+## Usage
+
+There are two ways to use the TLS Checker: via the WordPress admin or via WP-CLI. The plugin adds a new TLS Compatibility page to the Tools menu. This page allows you to run a TLS scan on your site against `/wp-content` and all subdirectories. When the scan is complete, a list of URLs that are not compatible with TLS 1.2 or higher will be displayed.
+
+![WP TLS Compatibility Checker admin page](.github/wp-tls-compatibility-checker-admin.png)
+
+You can also run the scan using the [WP-CLI command described below](#wp-cli-commands). WP-CLI allows you to specify directories to scan, and to output the results in different formats (table, JSON, CSV, or YAML).
+
+In either case, both _passing_ and _failing_ urls are stored to the database. Subsequent scans will automatically _skip_ the TLS check for URLs that are known to have passed previously (while still testing URLs that were previously failing). This data can be reset at any time either by using the `tls-checker reset` command from WP-CLI or in the admin with the "Reset TLS Compatibility Data" button.
+
+After a scan has been run, if there are any URLs detected that fail the TLS 1.2/1.3 check, an alert will be displayed on your Site Health page with a list of the failing URLs.
+
+![Site Health reported issue](.github/wp-tls-compatibility-checker-site-health.png)
+
+## Filters
+
+The TLS Compatibility Checker plugin contains two filters that can be used to either explicitly _add URLs to scan_ or _exclude URLs from scanning_.
+
+### `pantheon.tls_checker.skip_urls`
+
+This filter can be used to _exclude URLs from scanning_. The filter accepts an array of URLs to skip. For example:
+
+```php
+add_filter( 'pantheon.tls_checker.skip_urls', function( $skip_urls ) {
+	$skip_urls[] = 'https://example.com';
+	return $skip_urls;
+} ) ;
+```
+
+### `pantheon.tls_checker.additional_urls`
+
+This filter can be used to _add URLs to scan_. The filter accepts an array of URLs to add. For example:
+
+```php
+add_filter( 'pantheon.tls_checker.additional_urls', function( $additional_urls ) {
+	$additional_urls[] = 'https://example.com';
+	return $additional_urls;
+} ) ;
+```
+
+## Extending the plugin
+
+All the functions in [`inc/core.php`](blob/main/inc/core.php) are globally declared, allowing you to use any of them in your own code.
+
 ## WP-CLI Commands
 
 The TLS Checker can be run from the command line with WP-CLI.
