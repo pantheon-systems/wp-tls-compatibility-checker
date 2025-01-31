@@ -35,7 +35,7 @@ jobs:
               echo "changes_detected=false" >> $GITHUB_ENV
             fi
         - name: Add PR Comment
-          if: changes_detected == 'true'
+          if: env.changes_detected == 'true'
           env:
             GH_TOKEN: ${{ github.token }}
           run: |
