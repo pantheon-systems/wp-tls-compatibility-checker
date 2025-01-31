@@ -41,13 +41,13 @@ jobs:
           run: |
             CURRENT_COMMIT=$(git rev-parse --short HEAD)
             gh pr comment ${{ github.event.pull_request.number }} -b "Hi from your friendly Pantheon Robot! :robot: I fixed PHPCS issues with \`phpcbf\` on $CURRENT_COMMIT. Please review the changes."
-    lint:
-        name: Lint
+    phpcs:
+        name: Run PHPCS
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v4
-            - name: Lint
+            - name: PHPCS
               run: |
                 composer install
-                composer lint
+                composer phpcs
