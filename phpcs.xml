@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<ruleset name="Pantheon WP Coding Standards">
+	<description>Pantheon WordPress Coding Standards.</description>
+
+	<!-- What to scan -->
+	<file>.</file>
+	<exclude-pattern>/vendor/</exclude-pattern>
+	<exclude-pattern>/assets/</exclude-pattern>
+
+	<arg value="sp"/> <!-- Show sniff and progress -->
+	<arg name="basepath" value="./"/><!-- Strip the file paths down to the relevant bit -->
+	<arg name="colors"/>
+	<arg name="extensions" value="php"/>
+	<arg name="parallel" value="8"/><!-- Enables parallel processing when available for faster results. -->
+
+	<!-- Rules: Check PHP version compatibility -->
+	<config name="testVersion" value="8.4-"/>
+	<!-- https://github.com/PHPCompatibility/PHPCompatibilityWP -->
+	<rule ref="PHPCompatibilityWP"/>
+
+	<!-- Rules: Pantheon WP WordPress Coding Standards -->
+	<config name="minimum_supported_wp_version" value="5.2"/>
+	<rule ref="Pantheon-WP">
+		<exclude name="WordPressVIPMinimum.Files.IncludingFile.UsingCustomConstant" />
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+		<exclude name="WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown" />
+		<!-- Exclusions specific to the core functionality of the TLS Checker plugin -->
+		<exclude name="WordPress.PHP.NoSilencedErrors.Discouraged">
+			<file>inc/core.php</file>
+		</exclude>
+		<exclude name="Generic.PHP.NoSilencedErrors.Forbidden">
+			<file>inc/core.php</file>
+		</exclude>
+		<exclude name="WordPress.WP.AlternativeFunctions.file_system_operations_fclose">
+			<file>inc/core.php</file>
+		</exclude>
+	</rule>
+</ruleset>
