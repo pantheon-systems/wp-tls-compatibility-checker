@@ -169,6 +169,11 @@ function pantheon_tls_checker_scan( $urls ) {
 			continue;
 		}
 
+		// Skip URLs that are not reachable.
+		if ( ! pantheon_tls_checker_is_url_reachable( $url ) ) {
+			continue;
+		}
+
 		// Check TLS compatibility.
 		$hostname = parse_url( $url, PHP_URL_HOST );
 		$port = parse_url( $url, PHP_URL_PORT ) ?? 443;
@@ -263,8 +268,8 @@ function pantheon_tls_checker_is_url_reachable( $url ) {
 		}
 
 		$http_status = substr( $headers[0], 9, 3 );
-		// Treat any status below 500 as reachable (e.g., 200, 301, 403).
-		return (int) $http_status < 500;
+		// Treat any status below 400 as reachable (e.g., 200, 301, not 500 errors or 404s).
+		return (int) $http_status < 400;
 	}
 
 	return false;
