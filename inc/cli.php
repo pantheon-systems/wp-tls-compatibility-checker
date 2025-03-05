@@ -199,6 +199,11 @@ class TLS_Checker_Command {
 				'url' => $url,
 			];
 		}
+
+		if ( empty( $data ) ) {
+			WP_CLI::success( 'No scan data found.' );
+			return;
+		}
 	
 		// Validate fields and ensure correct format.
 		$formatter_options = [
