@@ -1,0 +1,23 @@
+name: Build, Tag & Release
+on:
+  push:
+    branches:
+      - 'release'
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  tag:
+    name: Tag and Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build, tag & release
+        uses: pantheon-systems/plugin-release-actions/build-tag-release@v0.2.2
+        with:
+          gh_token: ${{ github.token }}
+          build_composer_assets: "true"
+          generate_release_notes: "true"
+          readme_md: "README.md"
