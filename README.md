@@ -5,6 +5,10 @@
 ![GitHub Release](https://img.shields.io/github/v/release/jazzsequence/wp-tls-compatibility-checker)
 ![GitHub License](https://img.shields.io/github/license/jazzsequence/wp-tls-compatibility-checker)
 
+Stable tag: 1.0.0  
+Contributors: [jazzsequence](https://github.com/jazzsequence)
+
+---
 
 A scanner for outgoing HTTP requests in WordPress code to check TLS 1.2/1.3 compatibility.
 
