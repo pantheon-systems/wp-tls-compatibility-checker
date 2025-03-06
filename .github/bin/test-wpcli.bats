@@ -7,8 +7,10 @@ site_id="${SITE_ID:-""}
 
 @test "Authenticate terminus" {
 	run terminus auth:login --machine-token="${terminus_token}
-	echo "Output: $output"
-	echo "Status: $status"  	
+	echo "Output: '$output'"
+	echo "Status: '$status'"
+	# Fail explicitly if status is empty (command didn't run properly)
+	[[ -n "$status" ]] || { echo "Status is empty"; exit 1; }
 	[ "$status" -eq 0 ]
 }
 
