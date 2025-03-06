@@ -6,7 +6,7 @@
  * Author: Pantheon Systems
  * Author URI: https://pantheon.io
  * License: MIT
- * GitHub Plugin URI: jazzsequence/pantheon-tls-compatibility-checker
+ * GitHub Plugin URI: pantheon-systems/wp-tls-compatibility-checker
  * Primary Branch: main
  */
 
