@@ -104,7 +104,7 @@ function update_pantheon_php_version() {
 function copy_bad_plugin() {
 	echo -e "${YELLOW}Checking if TLS testing plugin exists...${RESET}"
 	if ! terminus wp "${site_id}.pr-${pr_num}" -- plugin list --field=name | grep -q test-bad; then
-		cp -r "${workspace}"/.github/fixtrures/test-bad.php ~/pantheon-local-copies/"${site_id}"/web/app/plugins
+		cp -r "${workspace}"/.github/fixtures/test-bad.php ~/pantheon-local-copies/"${site_id}"/web/app/plugins
 	else
 		echo "Test plugin already installed"
 	fi
