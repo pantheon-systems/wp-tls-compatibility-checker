@@ -102,11 +102,13 @@ site_id="${SITE_ID:-""}"
 	echo "Site ID: ${site_id}"
 	echo "PR number: ${pr_num}"
 	echo "Status: $status"
+	[ "$status" -eq 0 ]
+
 	run terminus wp "${site_id}.pr-${pr_num}" -- option get tls_checker_failing_urls
 	[ "$status" -eq 0 ]
-	[[ "$output" == "" ]]
+	[[ "$output" =~ "array (" ]] && [[ "$output" =~ ")" ]]
 
 	run terminus wp "${site_id}.pr-${pr_num}" -- option get tls_checker_passing_urls
 	[ "$status" -eq 0 ]
-	[[ "$output" == "" ]]
+	[[ "$output" =~ "array (" ]] && [[ "$output" =~ ")" ]]
 }
