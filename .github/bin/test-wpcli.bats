@@ -14,7 +14,7 @@ site_id="${SITE_ID:-""}"
 }
 
 @test "Check that plugin exists" {
-	run terminus wp "${site_id}.pr-${pr_num}" -- plugin list
+	run terminus wp "${site_id}.pr-${pr_num}" -- plugin list --format=csv --fields=name
 	echo "Output: $output"
 	echo "Site ID: ${site_id}"
 	echo "PR number: ${pr_num}"
