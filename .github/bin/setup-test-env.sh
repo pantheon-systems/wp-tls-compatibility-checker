@@ -118,7 +118,7 @@ function unignore_plugins() {
 		echo "!web/app/plugins/pantheon-tls-compatibility-checker" >> "$gitignore_file"
 	fi
 
-	echo "Updated .gitignore to unignore required plugins"
+	echo ".gitignore set up to unignore required plugins"
 }
 
 function copy_bad_plugin() {
