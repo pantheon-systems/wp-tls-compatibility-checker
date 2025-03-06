@@ -7,6 +7,8 @@ site_id="${SITE_ID:-""}
 
 @test "Authenticate terminus" {
 	run terminus auth:login --machine-token="${terminus_token}
+	echo "Output: $output"
+	echo "Status: $status"  	
 	[ "$status" -eq 0 ]
 }
 
