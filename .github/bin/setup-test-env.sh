@@ -139,11 +139,11 @@ function copy_pr_updates() {
 	cd ~/pantheon-local-copies/"${site_id}"
 	
 	# Check if there are changes to commit
-	git add -A
-	git commit -m "Update to latest commit: ${commit_msg}" || true
-	git push origin "pr-${pr_num}" || true
-		
 	if [[ -n $(git status --porcelain) ]]; then
+		git add -A
+		git commit -m "Update to latest commit: ${commit_msg}" || true
+		git push origin "pr-${pr_num}" || true
+		
 		# Run workflow:wait only if changes were committed
 		terminus workflow:wait "${site_id}.pr-${pr_num}"
 	else
