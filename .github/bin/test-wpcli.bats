@@ -20,12 +20,12 @@ site_id="${SITE_ID:-""}"
 	echo "PR number: ${pr_num}"
 	echo "Status: $status"
 	[ "$status" -eq 0 ]
-	[[ "$output" == *"pantheon-tls-compatibility-checker"* ]]
+	[[ "$output" == *"wp-tls-compatibility-checker"* ]]
 	[[ "$output" == *"test-bad"* ]]
 }
 
 @test "Activate the plugin" {
-	run terminus wp "${site_id}.pr-${pr_num}" -- plugin activate pantheon-tls-compatibility-checker
+	run terminus wp "${site_id}.pr-${pr_num}" -- plugin activate wp-tls-compatibility-checker
 	echo "Output: $output"
 	echo "Site ID: ${site_id}"
 	echo "PR number: ${pr_num}"

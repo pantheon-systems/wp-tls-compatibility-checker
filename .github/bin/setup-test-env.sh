@@ -113,9 +113,9 @@ function unignore_plugins() {
 		echo "!web/app/plugins/test-bad.php" >> "$gitignore_file"
 	fi
 
-	if ! grep -qxF "!web/app/plugins/pantheon-tls-compatibility-checker" "$gitignore_file"; then
+	if ! grep -qxF "!web/app/plugins/wp-tls-compatibility-checker" "$gitignore_file"; then
 		echo "Unignoring the TLS Checker plugin."
-		echo "!web/app/plugins/pantheon-tls-compatibility-checker" >> "$gitignore_file"
+		echo "!web/app/plugins/wp-tls-compatibility-checker" >> "$gitignore_file"
 	fi
 
 	echo ".gitignore set up to unignore required plugins"
@@ -134,7 +134,7 @@ function copy_pr_updates() {
 	echo "Commit message: ${commit_msg}"
 	cd ~/pantheon-local-copies/"${site_id}"/web/app/plugins
 	echo -e "${YELLOW}Copying latest changes to TLS Checker and committing to the site.${RESET}"
-	mkdir -p pantheon-tls-compatibility-checker && cd pantheon-tls-compatibility-checker
+	mkdir -p wp-tls-compatibility-checker && cd wp-tls-compatibility-checker
 	rsync -a --exclude=".git" "${workspace}/" .
 	cd ~/pantheon-local-copies/"${site_id}"
 	
