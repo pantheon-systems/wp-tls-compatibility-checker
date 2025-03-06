@@ -1,9 +1,10 @@
 # WP TLS Compatibility Checker
 
 [![Unofficial Support](https://img.shields.io/badge/Pantheon-Unofficial_Support-yellow?logo=pantheon&color=FFDC28)](https://docs.pantheon.io/oss-support-levels#unofficial-support)
-[![Lint](https://github.com/jazzsequence/wp-tls-compatibility-checker/actions/workflows/lint.yml/badge.svg)](https://github.com/jazzsequence/wp-tls-compatibility-checker/actions/workflows/lint.yml)
-![GitHub Release](https://img.shields.io/github/v/release/jazzsequence/wp-tls-compatibility-checker)
-![GitHub License](https://img.shields.io/github/license/jazzsequence/wp-tls-compatibility-checker)
+[![Test WP-CLI](https://github.com/pantheon-systems/wp-tls-compatibility-checker/actions/workflows/test-wpcli.yml/badge.svg)](https://github.com/pantheon-systems/wp-tls-compatibility-checker/actions/workflows/test-wpcli.yml)
+[![Lint](https://github.com/pantheon-systems/wp-tls-compatibility-checker/actions/workflows/lint.yml/badge.svg)](https://github.com/pantheon-systems/wp-tls-compatibility-checker/actions/workflows/lint.yml)
+![GitHub Release](https://img.shields.io/github/v/release/pantheon-systems/wp-tls-compatibility-checker)
+![GitHub License](https://img.shields.io/github/license/pantheon-systems/wp-tls-compatibility-checker)
 
 Stable tag: 1.0.0  
 Contributors: [jazzsequence](https://github.com/jazzsequence)
@@ -17,7 +18,7 @@ A scanner for outgoing HTTP requests in WordPress code to check TLS 1.2/1.3 comp
 ### Via Composer
 
 ```bash
-composer require jazzsequence/wp-tls-compatibility-checker
+composer require pantheon-systems/wp-tls-compatibility-checker
 ```
 
 ### Via Git Updater
@@ -27,14 +28,14 @@ WP TLS Compatibility Checker supports [Andy Fragen's Git Updater](https://git-up
 1. Download and install [Git Updater](https://git-updater.com/git-updater/) on your WordPress site.
 1. From the Git Updater admin pages, navigate to **Install Plugin** and use the following values:
 
-**Plugin URI:** `jazzsequence/wp-tls-compatibility-checker`  
+**Plugin URI:** `pantheon-systems/wp-tls-compatibility-checker`  
 **Repository Branch:** `main`  
 **Remote Repository Host:** `GitHub`  
 **GitHub Access Token:** (optional, leave blank)
 
 ### Manually
 
-1. Download the [latest release on GitHub]([https://](https://github.com/jazzsequence/wp-tls-compatibility-checker/releases).
+1. Download the [latest release on GitHub]([https://](https://github.com/pantheon-systems/wp-tls-compatibility-checker/releases).
 1. Unzip the archive into your WordPress plugins directory (usually `/wp-content/plugins/`).
 1. Upload the plugin to your WordPress site.
 1. Activate the plugin.
