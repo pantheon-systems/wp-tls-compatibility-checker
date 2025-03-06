@@ -19,13 +19,6 @@ GREEN="\033[1;32m"
 YELLOW="\033[1;33m"
 RESET="\033[0m"
 
-function get_site_id() {
-	echo "test-wp-tls-checker-${php_version}"
-}
-
-# shellcheck disable=SC2155
-readonly site_id=$(get_site_id)
-
 function log_into_terminus() {
 	if ! terminus whoami; then
 		echo -e "${YELLOW}Log into Terminus${RESET}"
