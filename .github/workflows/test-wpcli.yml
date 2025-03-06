@@ -107,6 +107,7 @@ jobs:
           PR_NUMBER: ${{ env.PR_NUMBER }}
           TERMINUS_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
           PHP_VERSION: ${{ matrix.php-version }}
+          SITE_ID: ${{ env.SITE_ID }}
         run: composer test:bats
 
       - name: Cleanup
