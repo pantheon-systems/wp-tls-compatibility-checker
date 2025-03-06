@@ -1,0 +1,119 @@
+name: Test WP-CLI
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+    paths:
+      - 'plugin.php'
+      - 'inc/*.php'
+      - '.github/bin/*'
+      - '.github/workflows/test-wpcli.yml'
+
+permissions:
+  contents: write
+  actions: read
+  pull-requests: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.1', '8.2', '8.3']
+  
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+      
+      - name: Cache Composer dependencies
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Check Composer lock file is up to date
+        run: composer validate --no-check-all
+
+      - name: Install Composer Dependencies
+        run: composer install --prefer-dist
+
+      - name: Install bats
+        uses: bats-core/bats-action@3.0.0
+
+      - name: Install Terminus
+        uses: pantheon-systems/terminus-github-actions@v1
+        with:
+          pantheon-machine-token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
+
+      - name: Get last commit message
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd ${{ github.workspace }}
+          PR_NUMBER=$(echo ${{ github.event.pull_request.number }})
+          COMMIT_MSG=$(gh pr view $PR_NUMBER --json commits --jq '.commits[-1] | "\(.messageHeadline) \(.messageBody)"')
+          # Replace newlines and carriage returns with spaces
+          CLEAN_COMMIT_MSG=$(echo "$COMMIT_MSG" | tr '\n\r' '  ')
+          # Remove single quotes
+          CLEAN_COMMIT_MSG=$(echo "$CLEAN_COMMIT_MSG" | sed "s/'//g")
+          echo "Commit message: ${CLEAN_COMMIT_MSG}"
+          echo "COMMIT_MSG=${CLEAN_COMMIT_MSG}" >> $GITHUB_ENV
+          echo "PR_NUMBER=${PR_NUMBER}" >> $GITHUB_ENV
+          
+      - name: Setup environment variables
+        run: |
+          PHP_VERSION=${{ matrix.php-version }}
+          php_version=${PHP_VERSION//./}
+          SITE_ID=test-wp-tls-checker-${php_version}
+          echo "SITE_ID=${SITE_ID}" >> $GITHUB_ENV
+          echo "TARGET_ENV=pr-${PR_NUMBER}-${SITE_ID}" >> $GITHUB_ENV
+
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Validate Pantheon Host Key
+        shell: bash
+        run: |
+          echo "Host *.drush.in HostKeyAlgorithms +ssh-rsa" >> ~/.ssh/config
+          echo "Host *.drush.in PubkeyAcceptedKeyTypes +ssh-rsa" >> ~/.ssh/config
+          echo "StrictHostKeyChecking no" >> ~/.ssh/config
+          
+      - name: Setup site for testing
+        env:
+          TERMINUS_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
+          COMMIT_MSG: ${{ env.COMMIT_MSG }}
+          WORKSPACE: ${{ github.workspace }}
+          PHP_VERSION: ${{ matrix.php-version }}
+          PR_NUMBER: ${{ env.PR_NUMBER }}
+          SITE_ID: ${{ env.SITE_ID }}
+          TARGET_ENV: ${{ env.TARGET_ENV }}
+        run: bash ${{ github.workspace }}/.github/bin/setup-test-env.sh
+
+      - name: Run WP-CLI tests
+        env:
+          PR_NUMBER: ${{ env.PR_NUMBER }}
+          TERMINUS_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
+          PHP_VERSION: ${{ matrix.php-version }}
+          SITE_ID: ${{ env.SITE_ID }}
+        run: composer test:bats
+
+      - name: Cleanup
+        if: success()
+        env:
+          TERMINUS_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
+          PR_NUMBER: ${{ env.PR_NUMBER }}
+          PHP_VERSION: ${{ matrix.php-version }}
+        run: bash ${{ github.workspace }}/.github/bin/cleanup-test-env.sh
