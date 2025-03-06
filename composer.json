@@ -1,12 +1,12 @@
 {
-    "name": "jazzsequence/wp-tls-compatibility-checker",
+    "name": "pantheon-systems/wp-tls-compatibility-checker",
     "description": "A scanner for outgoing HTTP requests in WordPress code to check TLS 1.2/1.3 compatibility.",
     "type": "wordpress-plugin",
     "license": "MIT",
     "authors": [
         {
             "name": "Chris Reynolds",
-            "email": "chris@jazzsequence.com"
+            "email": "chris.reynolds@pantheon.io"
         }
     ],
     "minimum-stability": "stable",
