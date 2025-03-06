@@ -112,19 +112,18 @@ function copy_bad_plugin() {
 
 function copy_pr_updates() {
 	echo "Commit message: ${commit_msg}"
-	cd ~/pantheon-local-copies/"${site_id}/web/app/plugins"
+	cd ~/pantheon-local-copies/"${site_id}"/web/app/plugins
 	echo -e "${YELLOW}Copying latest changes to TLS Checker and committing to the site.${RESET}"
 	mkdir -p pantheon-tls-compatibility-checker && cd pantheon-tls-compatibility-checker
 	rsync -a --exclude=".git" "${workspace}/" .
 	cd ~/pantheon-local-copies/"${site_id}"
 	
 	# Check if there are changes to commit
-	if [[ -n $(git status --porcelain) ]]; then
-		echo "Changes detected. Committing and pushing..."
-		git add -A
-		git commit -m "Update to latest commit: ${commit_msg}" || true
-		git push origin "pr-${pr_num}" || true
+	git add -A
+	git commit -m "Update to latest commit: ${commit_msg}" || true
+	git push origin "pr-${pr_num}" || true
 		
+	if [[ -n $(git status --porcelain) ]]; then
 		# Run workflow:wait only if changes were committed
 		terminus workflow:wait "${site_id}.pr-${pr_num}"
 	else
