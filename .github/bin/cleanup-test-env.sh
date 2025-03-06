@@ -6,13 +6,7 @@ readonly terminus_token=${TERMINUS_TOKEN:-""}
 # shellcheck disable=SC2153
 readonly php_version=${PHP_VERSION//./} 
 readonly pr_num=${PR_NUMBER:-""}
-
-function get_site_id() {
-	echo "test-wp-tls-checker-${php_version}"
-}
-
-# shellcheck disable=SC2155
-readonly site_id=$(get_site_id)
+readonly site_id=${SITE_ID:-""}
 
 function log_into_terminus() {
 	if ! terminus whoami; then
