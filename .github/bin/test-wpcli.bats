@@ -79,7 +79,7 @@ site_id="${SITE_ID:-""}"
   [[ "$output" == *"tls-v1-1.badssl.com:1011"* ]]	
 }
 
-@test "Check if tls_checker_results table exists" {
+@test "Check if passing and failing options tables exist" {
 	run terminus wp "${site_id}.pr-${pr_num}" -- option get tls_checker_passing_urls
 	echo "Output: $output"
 	echo "Site ID: ${site_id}"
@@ -103,8 +103,10 @@ site_id="${SITE_ID:-""}"
 	echo "PR number: ${pr_num}"
 	echo "Status: $status"
 	run terminus wp "${site_id}.pr-${pr_num}" -- option get tls_checker_failing_urls
-	[ "$status" -eq 1 ]
+	[ "$status" -eq 0 ]
+	[[ "$output" == "" ]]
 
 	run terminus wp "${site_id}.pr-${pr_num}" -- option get tls_checker_passing_urls
-	[ "$status" -eq 1 ]
+	[ "$status" -eq 0 ]
+	[[ "$output" == "" ]]
 }
