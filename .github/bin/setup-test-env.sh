@@ -101,6 +101,26 @@ function update_pantheon_php_version() {
 	fi
 }
 
+function unignore_plugins() {
+	cd ~/pantheon-local-copies/"${site_id}"
+	local gitignore_file=".gitignore"
+
+	echo ""
+	echo -e "${YELLOW}Checking the gitignore...${RESET}"
+
+	if ! grep -qxF "!web/app/plugins/test-bad.php" "$gitignore_file"; then
+		echo "Unignoring the test-bad plugin." 
+		echo "!web/app/plugins/test-bad.php" >> "$gitignore_file"
+	fi
+
+	if ! grep -qxF "!web/app/plugins/pantheon-tls-compatibility-checker" "$gitignore_file"; then
+		echo "Unignoring the TLS Checker plugin."
+		echo "!web/app/plugins/pantheon-tls-compatibility-checker" >> "$gitignore_file"
+	fi
+
+	echo "Updated .gitignore to unignore required plugins"
+}
+
 function copy_bad_plugin() {
 	echo -e "${YELLOW}Checking if TLS testing plugin exists...${RESET}"
 	if ! terminus wp "${site_id}.pr-${pr_num}" -- plugin list --field=name | grep -q test-bad; then
@@ -138,6 +158,7 @@ create_site
 clone_site
 set_multidev
 update_pantheon_php_version
+unignore_plugins
 copy_bad_plugin
 copy_pr_updates
 echo -e "${GREEN}Test environment setup complete.${RESET} 🚀"
