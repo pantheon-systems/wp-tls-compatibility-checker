@@ -12,7 +12,12 @@ The `release` branch builds the downloadable asset (which excludes some of the f
 
 ## Release Process
 
-1. When `main` is at a point where a release should be made, manually merge `main` into `release` and push the `release` branch.
+1. When `main` is at a point where a release should be made, make sure to update the version in all the relevant places:
+	- In `README.md`, update `Stable tag:`
+	- In `plugin.php`, update `Version:`
+	- In `plugin.php`, update the `TLS_CHECKER_VERSION` constant
+	- Create a PR to merge these changes into `main` (or YOLO and push directly to `main`, not recommended).
+1. Manually merge `main` into `release` and push the `release` branch.
     ```bash
 	git checkout main && git pull
 	git checkout release && git pull
