@@ -116,4 +116,5 @@ jobs:
           TERMINUS_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
           PR_NUMBER: ${{ env.PR_NUMBER }}
           PHP_VERSION: ${{ matrix.php-version }}
+          SITE_ID: ${{ env.SITE_ID }}
         run: bash ${{ github.workspace }}/.github/bin/cleanup-test-env.sh
