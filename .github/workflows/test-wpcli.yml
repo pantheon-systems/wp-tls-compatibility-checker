@@ -32,9 +32,9 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
       
-      - name: Cache Composer Dependencies
+      - name: Cache Composer dependencies
         id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_ENV
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
       
       - uses: actions/cache@v4
         with:
