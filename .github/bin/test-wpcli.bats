@@ -2,8 +2,12 @@
 
 pr_num="${PR_NUMBER:-""}"
 terminus_token="${TERMINUS_TOKEN}"
-php_version=${PHP_VERSION//./}
 site_id="${SITE_ID:-""}
+
+@test "Debug Terminus output in BATS" {
+    terminus auth:login --machine-token="${terminus_token}" | tee debug.log
+    cat debug.log
+}
 
 @test "Authenticate terminus" {
 	run terminus auth:login --machine-token="${terminus_token}
