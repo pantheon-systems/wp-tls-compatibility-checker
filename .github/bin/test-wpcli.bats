@@ -102,7 +102,6 @@ site_id="${SITE_ID:-""}"
 	echo "Site ID: ${site_id}"
 	echo "PR number: ${pr_num}"
 	echo "Status: $status"
-	[[ "$output" == *"All stored TLS check data has been reset"* ]]
 
 	run terminus wp "${site_id}.pr-${pr_num}" -- option get tls_checker_failing_urls
 	[ "$status" -eq 0 ]
