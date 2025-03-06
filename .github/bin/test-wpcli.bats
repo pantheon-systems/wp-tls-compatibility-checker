@@ -2,12 +2,7 @@
 
 pr_num="${PR_NUMBER:-""}"
 terminus_token="${TERMINUS_TOKEN}"
-site_id="${SITE_ID:-""}
-
-@test "Debug Terminus output in BATS" {
-    terminus auth:login --machine-token="${terminus_token}" | tee debug.log
-    cat debug.log
-}
+site_id="${SITE_ID:-""}"
 
 @test "Authenticate terminus" {
 	run terminus auth:login --machine-token="${terminus_token}
