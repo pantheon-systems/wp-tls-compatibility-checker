@@ -59,7 +59,7 @@ site_id="${SITE_ID:-""}"
   [[ "$output" == *"No scan data found."* ]]  
 }
 
-@test "Run TLS checker on just custom modules (specified directory)" {
+@test "Run TLS checker on just plugins (specified directory)" {
   run terminus wp "${site_id}.pr-${pr_num}" -- tls-checker scan --directory=app/plugins
   echo "Output: $output"
   echo "Site ID: ${site_id}"
