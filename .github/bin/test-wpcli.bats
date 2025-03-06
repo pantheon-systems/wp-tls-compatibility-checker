@@ -54,7 +54,7 @@ site_id="${SITE_ID:-""}"
 }
 
 @test "Run TLS checker report on empty data" {
-  run terminus drush "${site_id}.pr-${pr_num}" -- tls-checker report
+  run terminus wp "${site_id}.pr-${pr_num}" -- tls-checker report
   [ "$status" -eq 0 ]  
   [[ "$output" == *"No scan data found."* ]]  
 }
@@ -70,7 +70,7 @@ site_id="${SITE_ID:-""}"
 }
 
 @test "Run TLS checker report" {
-  run terminus drush "${site_id}.pr-${pr_num}" -- tls-checker report
+  run terminus wp "${site_id}.pr-${pr_num}" -- tls-checker report
     echo "Output: $output"
     echo "Site ID: ${site_id}"
     echo "PR number: ${pr_num}"
