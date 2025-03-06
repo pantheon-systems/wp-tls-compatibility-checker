@@ -13,12 +13,23 @@ site_id="${SITE_ID:-""}"
 	[ "$status" -eq 0 ]
 }
 
+@test "Check that plugin exists" {
+	run terminus wp "${site_id}.pr-${pr_num}" -- plugin list
+	echo "Output: $output"
+	echo "Site ID: ${site_id}"
+	echo "PR number: ${pr_num}"
+	echo "Status: $status"
+	[ "$status" -eq 0 ]
+	[[ "$output" == *"pantheon-tls-compatibility-checker"* ]]
+	[[ "$output" == *"test-bad"* ]]
+}
+
 @test "Activate the plugin" {
 	run terminus wp "${site_id}.pr-${pr_num}" -- plugin activate pantheon-tls-compatibility-checker
 	echo "Output: $output"
 	echo "Site ID: ${site_id}"
 	echo "PR number: ${pr_num}"
-	echo "Status: $status"  
+	echo "Status: $status"
 	[ "$status" -eq 0 ]	
 }
 
