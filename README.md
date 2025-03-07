@@ -166,6 +166,3 @@ add_action( 'admin_init', function() {
 ```
 
 When you run the command, the URL above should be returned as a host that does NOT support TLS 1.2 or higher.
-
-## TODO
-- [ ] Add tests
