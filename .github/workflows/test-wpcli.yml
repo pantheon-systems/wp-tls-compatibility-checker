@@ -90,7 +90,17 @@ jobs:
           echo "Host *.drush.in HostKeyAlgorithms +ssh-rsa" >> ~/.ssh/config
           echo "Host *.drush.in PubkeyAcceptedKeyTypes +ssh-rsa" >> ~/.ssh/config
           echo "StrictHostKeyChecking no" >> ~/.ssh/config
-          
+
+      - name: Check if SSH_PRIVATE_KEY is non-empty
+        run: |
+          if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+            echo "Secret is EMPTY"
+          else
+            echo "Secret is present"
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" | head -n 1
+          fi
+        
+
       - name: Setup site for testing
         env:
           TERMINUS_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
