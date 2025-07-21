@@ -12,7 +12,7 @@
     "minimum-stability": "stable",
     "require": {},
     "require-dev": {
-        "pantheon-systems/pantheon-wp-coding-standards": "^2.0"
+        "pantheon-systems/pantheon-wp-coding-standards": "^3.0"
     },
     "config": {
         "allow-plugins": {
