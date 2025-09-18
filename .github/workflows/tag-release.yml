@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Build, tag & release
-        uses: pantheon-systems/plugin-release-actions/build-tag-release@v0.2.2
+        uses: pantheon-systems/plugin-release-actions/build-tag-release@v0.3.0
         with:
           gh_token: ${{ github.token }}
           build_composer_assets: "true"
