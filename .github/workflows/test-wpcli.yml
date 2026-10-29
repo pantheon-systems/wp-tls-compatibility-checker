@@ -49,7 +49,7 @@ jobs:
         run: composer install --prefer-dist
 
       - name: Install bats
-        uses: bats-core/bats-action@3.0.1
+        uses: bats-core/bats-action@4.0.0
 
       - name: Install Terminus
         uses: pantheon-systems/terminus-github-actions@v1
@@ -80,7 +80,7 @@ jobs:
           echo "TARGET_ENV=pr-${PR_NUMBER}-${SITE_ID}" >> $GITHUB_ENV
 
       - name: Install SSH key
-        uses: webfactory/ssh-agent@v0.9.1
+        uses: webfactory/ssh-agent@v0.10.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
