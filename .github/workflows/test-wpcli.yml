@@ -30,7 +30,8 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
-          php-version: ${{ matrix.php-version }}
+          # Runner PHP must be 8.2+ for Terminus 4; matrix.php-version is the Pantheon site's PHP.
+          php-version: '8.3'
       
       - name: Cache Composer dependencies
         id: composer-cache
