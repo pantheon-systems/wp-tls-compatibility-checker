@@ -49,10 +49,10 @@ jobs:
         run: composer install --prefer-dist
 
       - name: Install bats
-        uses: bats-core/bats-action@77d6fb60505b4d0d1d73e48bd035b55074bbfb43 # 4.0.0
+        uses: bats-core/bats-action@3566550e0f594451ac0f58fcbfdeca93aa29a45e # 4.1.0
 
       - name: Install Terminus
-        uses: pantheon-systems/terminus-github-actions@409451ede17f75acac08f42edc823fee6c435057 # v1
+        uses: pantheon-systems/terminus-github-actions@26fc7c754c80fd1c9fe2d6d3ae77528a15033b6f # v1
         with:
           pantheon-machine-token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
 
